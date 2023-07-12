@@ -1,8 +1,7 @@
 import { filmDetails } from 'components/ServiceAPI/API';
-import { useState, useEffect } from 'react';
-import { NavLink, useParams, useLocation } from 'react-router-dom';
+import { useState, useEffect, Suspense } from 'react';
+import { NavLink, useParams, useLocation, Outlet } from 'react-router-dom';
 import { ErrorCard } from 'components/Error/Error';
-import Cast from 'components/Cast/Cast';
 
 const MovieDetails = () => {
   const [details, setDetails] = useState({});
@@ -15,7 +14,6 @@ const MovieDetails = () => {
     async function getDetails() {
       try {
         const selectedMovie = await filmDetails(movieId);
-        console.log(selectedMovie);
         setDetails(selectedMovie);
       } catch (error) {
         setError(error.message);
@@ -29,7 +27,6 @@ const MovieDetails = () => {
   }
 
   const { genres, title, overview, popularity, poster_path } = details;
-  console.log(genres);
 
   return (
     <>
@@ -69,6 +66,9 @@ const MovieDetails = () => {
             <NavLink to="reviews">Reviews</NavLink>
           </li>
         </ul>
+        <Suspense>
+          <Outlet />
+        </Suspense>
       </div>
       {error && <ErrorCard>{error}</ErrorCard>}
     </>

@@ -1,21 +1,20 @@
 import { movieCredits } from 'components/ServiceAPI/API';
 import { useState, useEffect } from 'react';
-import { useParams, useLocation, NavLink } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const Cast = () => {
-  const [cast, setCast] = useState({});
-  const [error, setError] = useState(null);
+  const [cast, setCast] = useState([]);
+
   const { movieId } = useParams();
-  const location = useLocation();
 
   useEffect(() => {
     async function getCast() {
       try {
         const movieCast = await movieCredits(movieId);
-        console.log(movieCast);
-        setCast(movieCast);
+
+        setCast(movieCast.cast);
       } catch (error) {
-        setError(error.message);
+        console.log(error.message);
       }
     }
     getCast();
@@ -25,11 +24,23 @@ const Cast = () => {
     <>
       <div>
         <ul>
-          <li>
-            <img src="" alt="" />
-            <h3></h3>
-            <p></p>
-          </li>
+          {cast.map(({ character, id, name, profile_path }) => {
+            return (
+              <li key={id}>
+                <img
+                  width={150}
+                  src={
+                    profile_path
+                      ? `https://image.tmdb.org/t/p/w500${profile_path}`
+                      : `https://profiles.utdallas.edu/img/default.png`
+                  }
+                  alt={name}
+                />
+                <h3>{name}</h3>
+                <p>{character}</p>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </>
