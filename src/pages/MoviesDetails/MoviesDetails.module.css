@@ -6,6 +6,8 @@
   border-radius: 5px;
 }
 .film__container {
+  display: flex;
+  align-items: flex-start;
   padding-top: 20px;
 }
 .info {
@@ -34,4 +36,9 @@
 }
 .link__info {
   margin-left: 20px;
+}
+
+.ganres__info {
+  display: flex;
+  flex-direction: column;
 }

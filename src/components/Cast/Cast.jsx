@@ -27,25 +27,29 @@ const Cast = () => {
     <>
       <div>
         {loading && <Loader />}
-        <ul>
-          {cast.map(({ character, id, name, profile_path }) => {
-            return (
-              <li key={id}>
-                <img
-                  width={150}
-                  src={
-                    profile_path
-                      ? `https://image.tmdb.org/t/p/w500${profile_path}`
-                      : `https://profiles.utdallas.edu/img/default.png`
-                  }
-                  alt={name}
-                />
-                <h3>{name}</h3>
-                <p>{character}</p>
-              </li>
-            );
-          })}
-        </ul>
+        {cast.length > 0 ? (
+          <ul>
+            {cast.map(({ character, id, name, profile_path }) => {
+              return (
+                <li key={id}>
+                  <img
+                    width={150}
+                    src={
+                      profile_path
+                        ? `https://image.tmdb.org/t/p/w500${profile_path}`
+                        : `https://profiles.utdallas.edu/img/default.png`
+                    }
+                    alt={name}
+                  />
+                  <h3>{name}</h3>
+                  <p>{character}</p>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p>We don't have any cast for this movie</p>
+        )}
       </div>
     </>
   );

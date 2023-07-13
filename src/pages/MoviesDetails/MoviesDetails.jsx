@@ -1,5 +1,5 @@
 import { filmDetails } from 'components/ServiceAPI/API';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { NavLink, useParams, useLocation, Outlet } from 'react-router-dom';
 import ErrorMasage from 'components/Error/Error';
 import { Loader } from 'components/Loader/Loader';
@@ -9,9 +9,9 @@ const MovieDetails = () => {
   const [details, setDetails] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const { movieId } = useParams();
   const location = useLocation();
+  const backLinkHref = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
     async function getDetails() {
@@ -36,9 +36,9 @@ const MovieDetails = () => {
 
   return (
     <>
-      <button>
-        <NavLink to={location.state?.from ?? '/'}>Go Back</NavLink>
-      </button>
+      <NavLink to={backLinkHref.current}>
+        <button>Go Back</button>
+      </NavLink>
 
       {loading && <Loader />}
       <div className={css.film__container}>
@@ -53,18 +53,20 @@ const MovieDetails = () => {
         />
         <div className={css.info}>
           <h2>{title}</h2>
-          <p>User Score {popularity}</p>
+          <p>User Score: {popularity}</p>
           <h3> Overview</h3>
           <p>{overview}</p>
         </div>
-        <h3 className={css.second__info}>Genres</h3>
-        {genres && (
-          <ul className={css.genres}>
-            {genres.map(genre => (
-              <li key={genre.id}>{genre.name}</li>
-            ))}
-          </ul>
-        )}
+        <div className={css.ganres__info}>
+          <h3 className={css.second__info}>Genres</h3>
+          {genres && (
+            <ul className={css.genres}>
+              {genres.map(genre => (
+                <li key={genre.id}>{genre.name}</li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
       <div>
         <h3 className={css.second__info}>Additional information</h3>

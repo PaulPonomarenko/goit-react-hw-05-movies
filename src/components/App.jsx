@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { lazy } from 'react';
 import Layaout from './Layaout/Layaout';
 import 'react-toastify/dist/ReactToastify.css';
+import NotFound from './Not Found/NotFound';
 const Home = lazy(() => import('../pages/Home/Home'));
 const MovieDetails = lazy(() => import('../pages/MoviesDetails/MoviesDetails'));
 const Movie = lazy(() => import('../pages/Movie/Movie'));
@@ -19,7 +20,7 @@ export const App = () => {
             <Route path="cast" element={<Cast />} />
             <Route path="reviews" element={<Reviews />} />
           </Route>
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </>
