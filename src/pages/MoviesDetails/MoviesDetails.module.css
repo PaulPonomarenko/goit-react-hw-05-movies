@@ -1,0 +1,37 @@
+.img {
+  width: 300px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+.film__container {
+  padding-top: 20px;
+}
+.info {
+  width: 300px;
+  text-align: center;
+  margin-left: 10px;
+  outline: rgb(155, 83, 76) solid 2px;
+  background-color: bisque;
+  border-radius: 5px;
+}
+.genres {
+  list-style: none;
+  display: flex;
+  padding: 0;
+}
+.genres li {
+  margin-left: 20px;
+}
+.second__info {
+  margin-left: 20px;
+}
+.link__container {
+  list-style: none;
+  display: flex;
+  padding: 0;
+}
+.link__info {
+  margin-left: 20px;
+}

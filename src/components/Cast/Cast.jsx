@@ -1,20 +1,23 @@
 import { movieCredits } from 'components/ServiceAPI/API';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Loader } from 'components/Loader/Loader';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
 
   useEffect(() => {
     async function getCast() {
       try {
+        setLoading(true);
         const movieCast = await movieCredits(movieId);
-
         setCast(movieCast.cast);
       } catch (error) {
         console.log(error.message);
+      } finally {
+        setLoading(false);
       }
     }
     getCast();
@@ -23,6 +26,7 @@ const Cast = () => {
   return (
     <>
       <div>
+        {loading && <Loader />}
         <ul>
           {cast.map(({ character, id, name, profile_path }) => {
             return (

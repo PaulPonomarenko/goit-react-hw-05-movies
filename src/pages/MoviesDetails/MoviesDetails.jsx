@@ -1,11 +1,14 @@
 import { filmDetails } from 'components/ServiceAPI/API';
 import { useState, useEffect, Suspense } from 'react';
 import { NavLink, useParams, useLocation, Outlet } from 'react-router-dom';
-import { ErrorCard } from 'components/Error/Error';
+import ErrorMasage from 'components/Error/Error';
+import { Loader } from 'components/Loader/Loader';
+import css from './MoviesDetails.module.css';
 
 const MovieDetails = () => {
   const [details, setDetails] = useState({});
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { movieId } = useParams();
   const location = useLocation();
@@ -13,10 +16,13 @@ const MovieDetails = () => {
   useEffect(() => {
     async function getDetails() {
       try {
+        setLoading(true);
         const selectedMovie = await filmDetails(movieId);
         setDetails(selectedMovie);
       } catch (error) {
         setError(error.message);
+      } finally {
+        setLoading(false);
       }
     }
     getDetails();
@@ -33,9 +39,11 @@ const MovieDetails = () => {
       <button>
         <NavLink to={location.state?.from ?? '/'}>Go Back</NavLink>
       </button>
-      <div>
+
+      {loading && <Loader />}
+      <div className={css.film__container}>
         <img
-          width="300px"
+          className={css.img}
           src={
             poster_path
               ? `https://image.tmdb.org/t/p/w500${poster_path}`
@@ -43,13 +51,15 @@ const MovieDetails = () => {
           }
           alt={title}
         />
-        <h2>{title}</h2>
-        <p>User Score {popularity}</p>
-        <h3> Overview</h3>
-        <p>{overview}</p>
-        <h3>Genres</h3>
+        <div className={css.info}>
+          <h2>{title}</h2>
+          <p>User Score {popularity}</p>
+          <h3> Overview</h3>
+          <p>{overview}</p>
+        </div>
+        <h3 className={css.second__info}>Genres</h3>
         {genres && (
-          <ul>
+          <ul className={css.genres}>
             {genres.map(genre => (
               <li key={genre.id}>{genre.name}</li>
             ))}
@@ -57,12 +67,12 @@ const MovieDetails = () => {
         )}
       </div>
       <div>
-        <h3>Additional information</h3>
-        <ul>
-          <li>
+        <h3 className={css.second__info}>Additional information</h3>
+        <ul className={css.link__container}>
+          <li className={css.link__info}>
             <NavLink to="cast">Cast</NavLink>
           </li>
-          <li>
+          <li className={css.link__info}>
             <NavLink to="reviews">Reviews</NavLink>
           </li>
         </ul>
@@ -70,7 +80,7 @@ const MovieDetails = () => {
           <Outlet />
         </Suspense>
       </div>
-      {error && <ErrorCard>{error}</ErrorCard>}
+      {error && <ErrorMasage error={error} />}
     </>
   );
 };

@@ -39,3 +39,13 @@ export const movieReviews = async movieId => {
   }
   return response.json();
 };
+
+export const movieSearch = async query => {
+  const response = await fetch(
+    `${BASE_URL}/3/search/movie?api_key=${KEY}&query=${query}&language=en-US&page=1`
+  );
+  if (!response.ok) {
+    throw new Error('Уууупсс, что-то пошло не так');
+  }
+  return response.json();
+};

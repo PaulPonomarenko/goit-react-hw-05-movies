@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import MoviesList from 'components/MoviesList/MoviesList';
 
 const Home = () => {
-  const [trending, setTrending] = useState([]);
+  const [movie, setTrending] = useState([]);
 
   async function getTrending() {
     const trends = await trendingMovies();
@@ -18,7 +18,7 @@ const Home = () => {
     <>
       <div>
         <h1>Trending today</h1>
-        <MoviesList movies={trending} />
+        <MoviesList movies={movie} />
       </div>
     </>
   );
